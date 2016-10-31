@@ -1,9 +1,11 @@
 package com.hekar.remote;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 @Component
 public class MouseService {
@@ -38,7 +40,7 @@ public class MouseService {
     public String click() {
         final Robot robot = getRobotInstance();
         robot.mousePress(InputEvent.BUTTON1_MASK);
-        robot.delay(200);
+        robot.delay(100);
         robot.mouseRelease(InputEvent.BUTTON1_MASK);
         return "success";
     }
@@ -46,9 +48,17 @@ public class MouseService {
     public String rightClick() {
         final Robot robot = getRobotInstance();
         robot.mousePress(InputEvent.BUTTON3_MASK);
-        robot.delay(200);
+        robot.delay(100);
         robot.mouseRelease(InputEvent.BUTTON3_MASK);
         return "success";
     }
 
+    @NotNull
+    public String keyPress(char key) {
+        final Robot robot = getRobotInstance();
+        robot.keyPress(key);
+        robot.delay(200);
+        robot.keyRelease(key);
+        return "success";
+    }
 }

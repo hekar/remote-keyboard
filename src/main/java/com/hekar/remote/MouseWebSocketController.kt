@@ -22,6 +22,7 @@ class MouseWebSocketController() : TextWebSocketHandler() {
             's' -> mouseService.scroll(tokens[2].toInt())
             'c' -> mouseService.click()
             'r' -> mouseService.rightClick()
+            'o' -> mouseService.keyPress(tokens[1].elementAt(0))
             else -> "no message"
         }
 
