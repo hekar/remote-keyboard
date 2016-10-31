@@ -43,4 +43,12 @@ public class MouseService {
         return "success";
     }
 
+    public String rightClick() {
+        final Robot robot = getRobotInstance();
+        robot.mousePress(InputEvent.BUTTON3_MASK);
+        robot.delay(200);
+        robot.mouseRelease(InputEvent.BUTTON3_MASK);
+        return "success";
+    }
+
 }

@@ -60,18 +60,28 @@
                 direction: Hammer.DIRECTION_ALL
             }) );
             mc.add( new Hammer.Tap() );
-            mc.on('pan', function(ev) {
-                var x = Math.ceil(ev.deltaX / 4);
-                var y = Math.ceil(ev.deltaY / 4);
-                send(`m:${x}:${y}`);
-            });
-            mc.on('twopan', function(ev) {
-                var x = Math.ceil(ev.deltaX / 100);
-                var y = Math.ceil(ev.deltaY / 100);
-                send(`s:${x}:${y}`);
-            });
+            mc.add( new Hammer.Press() );
+            mc.on('panmove', _.throttle((ev) => {
+                const div = 5;
+                var x = Math.ceil(ev.deltaX / div);
+                var y = Math.ceil(ev.deltaY / div);
+                if (x || y) {
+                    send(`m:${x}:${y}`);
+                }
+            }, 3));
+            mc.on('twopanmove', _.throttle((ev) => {
+                const div = 75;
+                var x = Math.ceil(ev.deltaX / div);
+                var y = Math.ceil(ev.deltaY / div);
+                if (x || y) {
+                    send(`s:${x}:${y}`);
+                }
+            }, 500));
             mc.on('tap', function(ev) {
                 send('c');
+            });
+            mc.on('pressup', function(ev) {
+                send('r');
             });
         });
     </script>
