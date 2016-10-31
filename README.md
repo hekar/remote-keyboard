@@ -6,6 +6,7 @@ Supports:
 - Pan (move mouse)
 - Two finger scroll
 - Tap
+- Long Tap (right click)
 
 Based on [Spring Boot](http://projects.spring.io/spring-boot/)
 
