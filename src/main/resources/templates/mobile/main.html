@@ -10,17 +10,41 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
 
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
             integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
             crossorigin="anonymous"></script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
     <script src="/js/hammer.min.js"></script>
+
+    <script type="text/javascript">
+		var ws = null;
+		function connect() {
+			ws = new SockJS(`/ws`);
+			ws.onopen = function () {
+			};
+			ws.onmessage = function (event) {
+			};
+			ws.onclose = function () {
+			};
+		}
+		function disconnect() {
+			if (ws != null) {
+				ws.close();
+				ws = null;
+			}
+		}
+		const send = (message) => {
+			if (ws != null) {
+				ws.send(message);
+			}
+		};
+	</script>
 </head>
-<body>
+<body onload="connect()">
     <div id="box" style="background: blue; height: 100vh; width: 100vw;"></div>
 
     <script>
@@ -28,29 +52,26 @@
             var options = {};
             var mc = new Hammer.Manager(document.getElementById('box'), options);
             mc.add( new Hammer.Pan({
-                direction: Hammer.DIRECTION_ALL,
-                threshold: 6
+                direction: Hammer.DIRECTION_ALL
             }) );
             mc.add( new Hammer.Pan({
                 event: 'twopan',
                 pointers: 2,
-                direction: Hammer.DIRECTION_ALL,
-                threshold: 6
+                direction: Hammer.DIRECTION_ALL
             }) );
             mc.add( new Hammer.Tap() );
             mc.on('pan', function(ev) {
-                var x = Math.ceil(ev.deltaX / 3);
-                var y = Math.ceil(ev.deltaY / 3);
-                $.get('/move/mouse/' + x + '/' + y);
+                var x = Math.ceil(ev.deltaX / 4);
+                var y = Math.ceil(ev.deltaY / 4);
+                send(`m:${x}:${y}`);
             });
             mc.on('twopan', function(ev) {
-                var x = Math.ceil(ev.deltaX / 3);
-                var y = Math.ceil(ev.deltaY / 3);
-                $.get('/move/mouse/scroll/' + x + '/' + y);
+                var x = Math.ceil(ev.deltaX / 100);
+                var y = Math.ceil(ev.deltaY / 100);
+                send(`s:${x}:${y}`);
             });
             mc.on('tap', function(ev) {
-                console.log(ev);
-                $.get('/move/mouse/click');
+                send('c');
             });
         });
     </script>
