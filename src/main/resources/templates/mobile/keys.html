@@ -48,7 +48,9 @@
         }
 
         function bindKey(id, key) {
-            $('#' + id).click(() => keyUp({ key: String.fromCharCode(key) }));
+            $('#' + id).click((e) => {
+                keyUp({ key: String.fromCharCode(key).toUpperCase() });
+            });
         }
 
         function setup() {
