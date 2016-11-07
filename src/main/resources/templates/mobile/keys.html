@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"/>
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous"/>
+
+    <script src="https://cdn.jsdelivr.net/sockjs/0.3.4/sockjs.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+		var ws = null;
+		function connect() {
+			ws = new SockJS(`/ws`);
+			ws.onopen = function () {
+			};
+			ws.onmessage = function (event) {
+			};
+			ws.onclose = function () {
+			};
+		}
+		function disconnect() {
+			if (ws != null) {
+				ws.close();
+				ws = null;
+			}
+		}
+		const send = (message) => {
+			if (ws != null) {
+				ws.send(message);
+			}
+		};
+
+        function keyUp(e) {
+            send(`o:${e.key}`);
+        }
+
+        function bindKey(id, key) {
+            $('#' + id).click(() => keyUp({ key: String.fromCharCode(key) }));
+        }
+
+        function setup() {
+            connect();
+            bindKey('play', ' '.charCodeAt(0));
+            bindKey('fullscreen', 'f'.charCodeAt(0));
+            bindKey('left', 37);
+            bindKey('right', 39);
+            bindKey('up', 38);
+            bindKey('down', 40);
+            bindKey('back', 37);
+            bindKey('forward', 39);
+        }
+    </script>
+    <style>
+        .bs-glyphicons-list {
+            padding-left: 0;
+            list-style: none;
+        }
+        .bs-glyphicons .glyphicon {
+            margin-top: 5px;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        .bs-glyphicons .glyphicon-class {
+            display: block;
+            text-align: center;
+            word-wrap: break-word;
+        }
+        .bs-glyphicons li {
+            float: left;
+            width: 32%;
+            height: 115px;
+            padding: 10px;
+            font-size: 10px;
+            line-height: 1.4;
+            text-align: center;
+            background-color: #f9f9f9;
+            border: 1px solid #fff;
+        }
+    </style>
+</head>
+<body onload="setup()">
+<div class="container">
+    <div class="row">
+        <div class="bs-glyphicons">
+            <ul class="bs-glyphicons-list">
+                <li id="back"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> <span
+                        class="glyphicon-class">glyphicon glyphicon-step-backward</span>
+                </li>
+                <li id="play"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> <span class="glyphicon-class">glyphicon glyphicon-play</span>
+                </li>
+                <li id="stop"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span> <span class="glyphicon-class">glyphicon glyphicon-stop</span>
+                </li>
+                <li id="forward"><span class="glyphicon glyphicon-step-forward" aria-hidden="true"></span> <span
+                        class="glyphicon-class">glyphicon glyphicon-step-forward</span>
+                </li>
+                <li id="file-close"><span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span> <span
+                        class="glyphicon-class">glyphicon glyphicon-folder-close</span>
+                </li>
+                <li id="file-open"><span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span> <span
+                        class="glyphicon-class">glyphicon glyphicon-folder-open</span>
+                </li>
+                <li id="fullscreen"><span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span> <span
+                        class="glyphicon-class">glyphicon glyphicon-fullscreen</span>
+                </li>
+                <li id="right"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span> <span
+                        class="glyphicon-class">glyphicon glyphicon-triangle-right</span>
+                </li>
+                <li id="left"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span> <span
+                        class="glyphicon-class">glyphicon glyphicon-triangle-left</span>
+                </li>
+                <li id="down"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span> <span
+                        class="glyphicon-class">glyphicon glyphicon-triangle-bottom</span>
+                </li>
+                <li id="up"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span> <span
+                        class="glyphicon-class">glyphicon glyphicon-triangle-top</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

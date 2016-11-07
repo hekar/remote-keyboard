@@ -7,13 +7,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/mobile/main")
+@RequestMapping("/mobile")
 public class MobileController {
 
-    @GetMapping("/")
+    @GetMapping("/main")
     @ResponseBody
     public ModelAndView index() {
         return new ModelAndView("mobile/main");
     }
+
+    @GetMapping("/keys")
+    @ResponseBody
+    public ModelAndView keys() {
+        return new ModelAndView("mobile/keys");
+    }
+
 
 }
